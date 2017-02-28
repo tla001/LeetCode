@@ -16,6 +16,7 @@ extern "C" {
 }
 
 #include <iostream>
+#include <sstream>
 #include <iomanip>
 #include <string>
 #include <cstring>
@@ -23,6 +24,11 @@ extern "C" {
 #include <set>
 #include <algorithm>
 #include <map>
+#include <stack>
+#include <queue>
+#include <hash_map>
+#include <unordered_set>
+#include <unordered_map>
 
 using namespace std;
 using namespace __gnu_cxx;
