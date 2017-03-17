@@ -563,4 +563,57 @@ public:
 		return res;
 	}
 };
+class Q17 {
+	/*
+	 * gas-station
+	 */
+public:
+	static int canCompleteCircuit(vector<int>&gas, vector<int>&cost) {
+		if (gas.size() != cost.size() || gas.size() == 0 || cost.size() == 0)
+			return -1;
+//		vector<int> diff;
+//		int total = 0;
+//		for (int i = 0; i < gas.size(); i++) {
+//			int di = gas[i] - cost[i];
+//			total += di;
+//			diff.push_back(di);
+//		}
+//		if (total < 0)
+//			return -1;
+//		int index = 0;
+//		int cur = 0;
+//		while (diff[cur] < 0) {
+//			cur++;
+//		}
+//		index = cur;
+//		total = 0;
+//		while (cur % gas.size() != index) {
+//			total += diff[cur];
+//			if (total < 0) {
+//				total -= diff[index];
+//				index++;
+//				while (index < cur && diff[index] < 0 || total < 0) {
+//					total -= diff[index];
+//					index++;
+//				}
+//			}
+//			cur++;
+//		}
+//		return index;
+		int total = 0, sum = 0;
+		int index = -1;
+		for (int i = 0; i < gas.size(); i++) {
+			sum += gas[i] - cost[i];
+			total += gas[i] - cost[i];
+			if (sum < 0) {
+				sum = 0;
+				index = i;
+			}
+		}
+		return total >= 0 ? index + 1 : -1;
+	}
+	static void test() {
+
+	}
+};
 #endif /* INC_CODE30_H_ */

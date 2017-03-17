@@ -1859,4 +1859,186 @@ public:
 
 	}
 };
+class QO62 {
+	/*
+	 * 二叉树搜索树的第k个节点
+	 */
+public:
+	struct TreeNode {
+		int val;
+		struct TreeNode *left;
+		struct TreeNode *right;
+		TreeNode(int x) :
+				val(x), left(NULL), right(NULL) {
+		}
+	};
+	TreeNode *KthNode(TreeNode *pRoot, int k) {
+		if (pRoot == NULL || k <= 0)
+			return NULL;
+		vector<TreeNode *> v;
+		inOrder(pRoot, v);
+		if (k > v.size())
+			return NULL;
+		return v[k - 1];
+	}
+	void inOrder(TreeNode *pRoot, vector<TreeNode *>&v) {
+		if (pRoot == NULL)
+			return;
+		inOrder(pRoot->left, v);
+		v.push_back(pRoot);
+		inOrder(pRoot->right, v);
+	}
+};
+class QO63 {
+	/*
+	 * 如何得到数据流中的中位数
+	 */
+public:
+	void Insert(int num) {
+		v.push_back(num);
+	}
+	double GetMedian() {
+		sort(v.begin(), v.end());
+		int nums = v.size();
+		double ave = 0.0;
+		if (nums % 2 == 1) {
+			ave = (double) v[(nums + 1) / 2 - 1];
+		} else {
+			int sum = v[nums / 2] + v[nums / 2 - 1];
+			ave = (double) sum / 2;
+		}
+		return ave;
+	}
+private:
+	vector<int> v;
+};
+class QO64 {
+	/*
+	 * 滑动窗口最大值
+	 */
+public:
+	static vector<int> maxInWindows(const vector<int>&num, unsigned int size) {
+		vector<int> res;
+		if (num.size() <= 0 || size <= 0 || size > num.size())
+			return res;
+		int max = num[0], pre = 0, next = 0;
+		for (unsigned int i = 1; i < size; i++) {
+			if (num[i] > max)
+				max = num[i];
+		}
+		res.push_back(max);
+		for (unsigned int i = size; i < num.size(); i++) {
+			next = num[i];
+			pre = num[i - size];
+			if (pre == max) {
+				max = num[i - size + 1];
+				for (unsigned int j = 1; j < size; j++) {
+					if (num[i - size + 1 + j] > max)
+						max = num[i - size + 1 + j];
+				}
+			} else {
+				if (next > pre) {
+					if (next > max)
+						max = next;
+				}
+			}
+			res.push_back(max);
+		}
+		return res;
+	}
+	static void test() {
+		vector<int> num = { 2, 3, 4, 2, 6, 2, 5, 1 };
+		unsigned int size = 3;
+		vector<int> res = maxInWindows(num, size);
+		for (int i = 0; i < res.size(); i++) {
+			cout << res[i] << "->";
+		}
+		cout << endl;
+	}
+};
+class QO65 {
+	/*
+	 * 矩阵中的路径
+	 */
+public:
+	bool hasPath(char* matrix, int rows, int cols, char* str) {
+		if (str == NULL || rows <= 0 || cols <= 0)
+			return false;
+		bool *isOk = new bool[rows * cols]();
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++)
+				if (isHsaPath(matrix, rows, cols, str, isOk, i, j))
+					return true;
+		}
+		return false;
+	}
+	bool isHsaPath(char *matrix, int rows, int cols, char *str, bool *isOk,
+			int curx, int cury) {
+		if (*str == '\0')
+			return true;
+		if (cury == cols) {
+			curx++;
+			cury = 0;
+		}
+		if (cury == -1) {
+			curx--;
+			cury = cols - 1;
+		}
+		if (curx < 0 || curx >= rows)
+			return false;
+		if (isOk[curx * cols + cury] || *str != matrix[curx * cols + cury])
+			return false;
+		isOk[curx * cols + cury] = true;
+		bool sign = isHsaPath(matrix, rows, cols, str + 1, isOk, curx - 1, cury)
+				|| isHsaPath(matrix, rows, cols, str + 1, isOk, curx + 1, cury)
+				|| isHsaPath(matrix, rows, cols, str + 1, isOk, curx, cury - 1)
+				|| isHsaPath(matrix, rows, cols, str + 1, isOk, curx, cury + 1);
+		isOk[curx * cols + cury] = false;
+		return sign;
+	}
+};
+class QO66 {
+	/*
+	 * 机器人运动范围
+	 */
+	int movingCount(int threshold, int rows, int cols) {
+		bool* flag = new bool[rows * cols];
+		for (int i = 0; i < rows * cols; i++)
+			flag[i] = false;
+		int count = moving(threshold, rows, cols, 0, 0, flag); //从（0,0）坐标开始访问;
+		delete[] flag;
+		return count;
+	}
+	//计算最大移动位置
+	int moving(int threshold, int rows, int cols, int i, int j, bool* flag) {
+		int count = 0;
+		if (check(threshold, rows, cols, i, j, flag)) {
+			flag[i * cols + j] = true;
+			//标记访问过，这个标志flag不需要回溯，因为只要被访问过即可。
+			//因为如果能访问，访问过会加1.不能访问，也会标记下访问过。
+			count = 1 + moving(threshold, rows, cols, i - 1, j, flag)
+					+ moving(threshold, rows, cols, i, j - 1, flag)
+					+ moving(threshold, rows, cols, i + 1, j, flag)
+					+ moving(threshold, rows, cols, i, j + 1, flag);
+		}
+		return count;
+	}
+	//检查当前位置是否可以访问
+	bool check(int threshold, int rows, int cols, int i, int j, bool* flag) {
+		if (i >= 0 && i < rows && j >= 0 && j < cols
+				&& getSum(i) + getSum(j) <= threshold
+				&& flag[i * cols + j] == false)
+			return true;
+		return false;
+	}
+	//计算位置的数值
+	int getSum(int number) {
+		int sum = 0;
+		while (number > 0) {
+			sum += number % 10;
+			number /= 10;
+		}
+		return sum;
+	}
+};
 #endif /* INC_OFFER66_H_ */
