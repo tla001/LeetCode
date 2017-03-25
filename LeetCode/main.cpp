@@ -10,10 +10,14 @@
 //#include "MyList.h"
 //#include "MyStack.h"
 //#include "MyQueue.h"
-#include "Offer66.h"
+//#include "Offer66.h"
 //#include "MyHash.h"
 //#include "MySort.h"
-#include "NiuKeVideo.h"
+//#include "MyString.h"
+//#include "MyDP.h"
+//#include "MyBack.h"
+#include "Program2016.h"
+//#include "NiuKeVideo.h"
 
 int main() {
 //	Q1::test();
@@ -35,6 +39,11 @@ int main() {
 //	AboutSort::test();
 //	AboutStack::test();
 //	AboutList::test();
-	AboutSearch::test();
+//	AboutSearch::test();
+//	MyString::test();
+//	MyDP::test();
+//	MyBack::test();
+
+	NetEasy::refreshCards();
 	return 0;
 }

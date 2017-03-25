@@ -24,6 +24,7 @@ extern "C" {
 #include <set>
 #include <algorithm>
 #include <map>
+#include <list>
 #include <stack>
 #include <queue>
 #include <hash_map>

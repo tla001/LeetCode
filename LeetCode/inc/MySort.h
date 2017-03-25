@@ -89,7 +89,7 @@ public:
 				if (child + 1 < length && array[child] < array[child + 1])
 					child++;
 				// 如果父节点的值已经大于孩子节点的值，则直接结束
-				if (array[parent] >= array[child])
+				if (array[parent] > array[child])
 					break;
 			} else {
 				//如果有右孩子，且右孩子小于左孩子，选取右孩子节点
@@ -104,8 +104,8 @@ public:
 			//选取孩子节点的左孩子节点，继续向下筛选
 			parent = child;
 			child = child * 2 + 1;
+			array[parent] = pivot;
 		}
-		array[parent] = pivot;
 	}
 	/*
 	 * 初始化堆
@@ -468,12 +468,12 @@ public:
 		cout << endl;
 	}
 	static void test() {
-		int array[] = { 21, 40, 300, 101, 3, 2227, 22346, 10000 };
+		int array[] = { 4, 5, 1, 6, 2, 7, 3, 8 };
 		int size = sizeof(array) / sizeof(array[0]);
 		int *helper = new int[size];
 //		mergeSort(array, helper, 0, size - 1);
 //		quickSort(array, 0, size - 1);
-//		heapSort(array, size, false);
+		heapSort(array, size, true);
 //		directInsertSort(array, size);
 //		binaryInsertSort(array, size);
 //		twoInsertSort(array, size);
@@ -485,7 +485,7 @@ public:
 //		bubbleSort2(array, size);
 //		bucketSort(array, size, 8);//max 需要大于数组里最大值
 //		radixSort(array, size, 10);
-		OutSortTest();
+//		OutSortTest();
 		print(array, size);
 	}
 
