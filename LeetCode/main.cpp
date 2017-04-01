@@ -14,11 +14,14 @@
 //#include "MyHash.h"
 //#include "MySort.h"
 //#include "MyString.h"
+//#include "MyGraph.h"
 //#include "MyDP.h"
 //#include "MyBack.h"
+#include "MyGreedy.h"
 #include "Program2016.h"
 //#include "NiuKeVideo.h"
-
+//#include "neteasy.h"
+//int MyMGraph::visited[MAXVEX];
 int main() {
 //	Q1::test();
 //	Q2::test();
@@ -41,9 +44,16 @@ int main() {
 //	AboutList::test();
 //	AboutSearch::test();
 //	MyString::test();
+
+//	MyMGraph::MGraphTest();
 //	MyDP::test();
 //	MyBack::test();
+//	MyGreedy::test();
 
-	NetEasy::refreshCards();
+//	NetEasy::refreshCards();
+//	Net325::findBsetSentence();
+//	JingDong::test();
+//	Tencent::getMaxMinDiff();
+	BaiDu::goFish();
 	return 0;
 }

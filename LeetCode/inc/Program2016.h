@@ -255,4 +255,327 @@ public:
 	}
 };
 
+class JingDong {
+public:
+	static int countWays(int n) {
+		if (n == 1)
+			return 0;
+		if (n == 2)
+			return 2;
+		if (n == 3)
+			return 2;
+		int *table = new int[n + 1];
+		table[1] = 0;
+		table[2] = 1;
+		table[3] = 2;
+		for (int i = 4; i <= n; i++) {
+			table[i] = (table[i - 1] % 1000000007 + table[i - 2] % 1000000007)
+					% 1000000007;
+		}
+		int res = table[n] % 1000000007;
+		delete[] table;
+		return res;
+	}
+	static int calcDistance(int A, int B, int C, int D) {
+		// write code here
+		return (int) distance(A) + distance(B) + distance(C) + distance(D);
+	}
+
+	static double distance(double dis) {
+		if (dis == 0)
+			return 0;
+		else
+			return dis / 2 * 3 + distance(dis / 2);
+	}
+	static int getMost(vector<vector<int>> board) {
+		vector<vector<int>> table(board);
+		for (int i = 1; i < table.size(); i++) {
+			table[0][i] = table[0][i - 1] + table[0][i];
+			table[i][0] = table[i - 1][0] + table[i][0];
+		}
+		for (int i = 1; i < table.size(); i++) {
+			for (int j = 1; j < table[i].size(); j++) {
+				table[i][j] = max(table[i - 1][j], table[i][j - 1])
+						+ table[i][j];
+			}
+		}
+		return table[table.size() - 1][table.size() - 1];
+	}
+	static void test() {
+		int n = 88;
+//		cout << countWays(n) << endl;
+		cout << calcDistance(100, 90, 80, 70) << endl;
+	}
+};
+class Tencent {
+public:
+	static void printDelNums() {
+		string str;
+		while (cin >> str) {
+			int pos = 0;
+			int nums = 0;
+			vector<int> table(str.size(), 0);
+			for (int i = 0; i < str.size(); i++) {
+				if (table[i] == 0) {
+					if ((pos = str.find_first_of(str[i], i + 1))
+							!= string::npos) {
+//						cout << str[i] << endl;
+						table[i] = 1;
+						table[pos] = 1;
+					} else {
+						table[i] = 1;
+						nums++;
+					}
+				}
+			}
+			cout << nums << endl;
+		}
+	}
+	static void moveABC() {
+		string str;
+		while (cin >> str) {
+			int index = str.size() - 1;
+			for (int i = str.size() - 1; i >= 0; i--) {
+				if (str[i] >= 'A' && str[i] <= 'Z') {
+					char tem = str[i];
+					for (int j = i; j <= index - 1; j++) {
+						str[j] = str[j + 1];
+					}
+					str[index--] = tem;
+//					cout << str << endl;
+				}
+			}
+			cout << str << endl;
+		}
+	}
+	static void getMaxMinDiff() {
+		int n;
+		while (cin >> n) {
+			vector<int> table(n, 0);
+			int a;
+			for (int i = 0; i < n; i++) {
+				cin >> a;
+				table[i] = a;
+			}
+			int maxValue = 0;
+			int maxNums = 0;
+			int minValue = 0;
+			int minNums = 0;
+
+			int tailnum = 1;
+			int headnum = 1;
+			sort(table.begin(), table.end());
+			int maxpoint = table[n - 1];
+			int minpoint = table[0];
+			for (int i = n - 2; i >= 0; i--) {
+				if (maxpoint == table[i])
+					tailnum++;
+				else
+					break;
+			}
+			for (int i = 1; i < n && minpoint < maxpoint; i++) {
+				if (minpoint == table[i])
+					headnum++;
+				else
+					break;
+			}
+			maxNums = tailnum * headnum;
+			for (int i = 0; i < n - 1; i++) {
+				int value = abs(table[i] - table[i + 1]);
+				if (value == minValue) {
+					minNums++;
+				}
+				if (value < minValue) {
+					minValue = value;
+					minNums = 1;
+				}
+			}
+//			for (int i = 0; i < n; i++) {
+//				for (int j = i + 1; j < n; j++) {
+//					int value = abs(table[i] - table[j]);
+//					if (value == maxValue) {
+//						maxNums++;
+//					}
+//					if (value > maxValue) {
+//						maxValue = value;
+//						maxNums = 1;
+//					}
+//					if (value == minValue) {
+//						minNums++;
+//					}
+//					if (value < minValue) {
+//						minValue = value;
+//						minNums = 1;
+//					}
+//				}
+//			}
+			cout << minNums << " " << maxNums << endl;
+		}
+	}
+
+	static vector<string> getGray(int n) {
+		vector < string > res;
+		if (n == 1) {
+			res.push_back("0");
+			res.push_back("1");
+			return res;
+		}
+		vector < string > v = getGray(n - 1);
+		int len = pow(2, n - 1);
+		for (int i = 0; i < len; i++) {
+			res.push_back("0" + v[i]);
+		}
+		for (int i = len - 1; i >= 0; i--) {
+			res.push_back("1" + v[i]);
+		}
+		return res;
+	}
+	static int getValue(vector<int> gifts, int n) {
+		sort(gifts.begin(), gifts.end());
+		int pre, cur;
+		pre = cur = gifts[0];
+		int sum = 1;
+		for (int i = 1; i < gifts.size(); i++) {
+			cur = gifts[i];
+			if (pre != cur) {
+				sum = 0;
+			}
+			sum++;
+			if (sum > n / 2)
+				return cur;
+			if ((n - i + sum) < (n / 2 + 1))
+				break;
+			pre = cur;
+		}
+		return 0;
+	}
+};
+class BaiDu {
+public:
+	static void transCrimer() {
+		int n, t, c;
+		while (cin >> n >> t >> c) {
+			vector<int> v(n, 0);
+			int a;
+			for (int i = 0; i < n; i++) {
+				cin >> a;
+				v[i] = a;
+			}
+			int pre = v[0];
+			int sum = 0;
+			int nums = 0;
+			for (int i = 0; i < c; i++) {
+				sum += v[i];
+			}
+			if (sum <= t)
+				nums++;
+			for (int i = c; i < n; i++) {
+				sum -= pre;
+				sum += v[i];
+				pre = v[i - c + 1];
+				if (sum <= t)
+					nums++;
+			}
+			cout << nums << endl;
+		}
+	}
+	static void getArea() {
+		int n;
+		while (cin >> n) {
+			int maxdiff_x = 0;
+			int curdiff_x = 0;
+			int maxvalue_x = 0;
+			int minvalue_x = 0;
+			int maxdiff_y = 0;
+			int curdiff_y = 0;
+			int maxvalue_y = 0;
+			int minvalue_y = 0;
+			int x, y;
+			cin >> x >> y;
+			maxvalue_x = x;
+			minvalue_x = x;
+			maxvalue_y = y;
+			minvalue_y = y;
+			for (int i = 1; i < n; i++) {
+				cin >> x >> y;
+				curdiff_x = max(max(abs(x - maxvalue_x), abs(x - minvalue_x)),
+						curdiff_x);
+				if (curdiff_x > maxdiff_x)
+					maxdiff_x = curdiff_x;
+				if (x > maxvalue_x)
+					maxvalue_x = x;
+				if (x < minvalue_x)
+					minvalue_x = x;
+				curdiff_y = max(max(abs(y - maxvalue_y), abs(y - minvalue_y)),
+						curdiff_y);
+				if (curdiff_y > maxdiff_y)
+					maxdiff_y = curdiff_y;
+				if (y > maxvalue_y)
+					maxvalue_y = y;
+				if (y < minvalue_y)
+					minvalue_y = y;
+			}
+			int maxvalue = max(maxdiff_x, maxdiff_y);
+			cout << maxvalue * maxvalue << endl;
+		}
+	}
+
+	static void goFish() {
+		int n, m, x, y, t;
+		while (cin >> n >> m >> x >> y >> t) {
+			vector<vector<double>> table(n, vector<double>(m, 0.0));
+			double avp = 0.0;
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < m; j++) {
+					cin >> table[i][j];
+					avp += table[i][j];
+				}
+			}
+			avp /= m * n;
+			double pcc = 1 - pow(1 - table[x - 1][y - 1], t);
+			double pss = 1 - pow(1 - avp, t);
+			cout << setiosflags(ios::fixed) << setprecision(2);
+			if (pcc > pss) {
+				cout << "cc" << endl;
+				cout << pcc << endl;
+			} else if (pcc < pss) {
+				cout << "ss" << endl;
+				cout << pss << endl;
+			} else {
+				cout << "equal" << endl;
+				cout << pcc << endl;
+			}
+
+		}
+	}
+
+	static void findway() {
+
+		int n, m, k;
+		while (cin >> n >> m >> k) {
+			vector < vector<double> > p((n + 1), vector<double>(m + 1));
+			int x, y;
+			for (int i = 0; i < k; i++) {
+				cin >> x >> y;
+				p[x][y] = -1.0;
+			}
+			p[1][1] = 1.0;
+			for (int i = 1; i <= n; i++) {
+				for (int j = 1; j <= m; j++) {
+					if (!(i == 1 && j == 1)) {
+						if (p[i][j] == -1.0) {
+							p[i][j] = 0;
+						} else {
+							p[i][j] = p[i - 1][j] * (j == m ? 1 : 0.5)
+									+ p[i][j - 1] * (i == n ? 1 : 0.5);
+						}
+					}
+				}
+			}
+			cout << setiosflags(ios::fixed) << setprecision(2);
+			cout << p[n][m] << endl;
+		}
+
+	}
+};
 #endif /* INC_PROGRAM2016_H_ */

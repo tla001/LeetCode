@@ -242,6 +242,25 @@ public:
 		}
 		return maxProfit;
 	}
+	int calculateMax(vector<int> prices) {
+		vector<int> v(prices.size(), 0);
+		int min_prices = prices[0];
+		int max_prices = prices[prices.size() - 1];
+		int max_profit = 0;
+		for (int i = 1; i < prices.size(); ++i) {
+			v[i] = max_profit = max(max_profit, prices[i] - min_prices);
+			min_prices = min(prices[i], min_prices);
+		}
+		int profit = 0;
+		max_profit = 0;
+		for (int i = prices.size() - 2; i >= 0; --i) {
+			max_profit = max(max_profit, max_prices - prices[i]);
+			v[i] += max_profit;
+			max_prices = max(max_prices, prices[i]);
+			profit = max(profit, v[i]);
+		}
+		return profit;
+	}
 	/*
 	 * 当前元素用数组其它元素乘积替换
 	 */
@@ -271,6 +290,23 @@ public:
 			maxvalue = max(table[i], maxvalue);
 		}
 		return maxvalue;
+	}
+	/*
+	 * 0-1背包问题
+	 */
+	/*
+	 * 需对容量为c 的背包进行装载。从n 个物品中选取装入背包的物品，每件物品i 的重量为wi ，
+	 * 价值为pi 。对于可行的背包装载，背包中物品的总重量不能超过背包的容量，最佳装载是指所装入的物品价值最高。
+	 */
+	static int oneZeroPacks1(vector<int> weight, vector<int> prices,
+			int capacity) {
+		vector<int> table(capacity + 1, 0);
+		int maxProfit = 0;
+		for (int i = 1; i <= capacity; i++) {
+			for (int j = 0; j < weight.size(); i++) {
+
+			}
+		}
 	}
 	static void test() {
 //		cout << uniquePaths1(3, 4) << endl;
