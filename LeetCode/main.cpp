@@ -17,10 +17,12 @@
 //#include "MyGraph.h"
 //#include "MyDP.h"
 //#include "MyBack.h"
-#include "MyGreedy.h"
-#include "Program2016.h"
+//#include "MyGreedy.h"
+//#include "Program2016.h"
 //#include "NiuKeVideo.h"
 //#include "neteasy.h"
+#include "JingDong.h"
+
 //int MyMGraph::visited[MAXVEX];
 int main() {
 //	Q1::test();
@@ -54,6 +56,8 @@ int main() {
 //	Net325::findBsetSentence();
 //	JingDong::test();
 //	Tencent::getMaxMinDiff();
-	BaiDu::goFish();
+//	BaiDu::goFish();
+	JingDong47::calP();
+
 	return 0;
 }
