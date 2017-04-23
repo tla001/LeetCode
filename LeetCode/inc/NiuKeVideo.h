@@ -382,6 +382,24 @@ public:
 			return 0;
 		return res + 1;
 	}
+	bool isOddNumber(int data) {
+		return (data & 1) == 1;
+	}
+	void OddWvenSort(vector<int> arr) {
+		if (arr.empty())
+			return;
+		int head = 0;
+		int tail = arr.size() - 1;
+		while (head < tail) {
+			if (isOddNumber(arr[head])) {
+				head++;
+			} else if (!isOddNumber(arr[tail])) {
+				tail--;
+			} else {
+				swap(arr[head], arr[tail]);
+			}
+		}
+	}
 	static void test() {
 		int A[] = { 1, 2, 10, 1, 8, 9 };
 		int n = sizeof(A) / sizeof(A[0]);
@@ -662,6 +680,9 @@ public:
 };
 class AboutSearch {
 public:
+	/*
+	 * 寻找局部最小值
+	 */
 	int getLessIndex(vector<int> arr) {
 		int n = arr.size();
 		if (n == 0)
@@ -688,6 +709,9 @@ public:
 		}
 		return -1;
 	}
+	/*
+	 * 找到最靠左的元素的位置
+	 */
 	int findPos(vector<int> arr, int n, int num) {
 		int low = 0;
 		int high = n - 1;
@@ -706,6 +730,9 @@ public:
 		}
 		return -1;
 	}
+	/*
+	 * 寻找循环移位后序列的最小值：4123
+	 */
 	static int getMin(vector<int> arr, int n) {
 		if (n <= 0)
 			return -1;
@@ -731,6 +758,7 @@ public:
 		}
 		return -1;
 	}
+
 	static int findPos(vector<int> arr, int n) {
 		if (n == 0)
 			return -1;

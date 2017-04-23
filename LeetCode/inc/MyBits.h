@@ -11,6 +11,9 @@
 #include "Include.h"
 class SomeQuetionOfBits {
 public:
+	/*
+	 * 比较两个数字bit位不同的个数
+	 */
 	int numberOfDifferentBits(int A, int B) {
 		int diff = A ^ B;
 		int count = 0;
@@ -36,8 +39,7 @@ public:
 #define INT_BIT_LENGTH 32
 	void setBits(unsigned int &N, unsigned int &M, int i, int j) {
 		unsigned int max = ~0;
-		unsigned int bitMask = (max << INT_BIT_LENGTH - i) | max >> j
-		);
+		unsigned int bitMask = (max << INT_BIT_LENGTH - i) | (max >> j);
 		N = (M & (~bitMask)) | (N & bitMask);
 	}
 	/*
@@ -45,6 +47,15 @@ public:
 	 */
 	int swapBits(int input) {
 		return ((0xaaaaaaaa & input) >> 1) | ((0x55555555 & input) << 1);
+	}
+	/*
+	 * 交换两个数组
+	 */
+	vector<int> getSwap(vector<int> num) {
+		num[0] = num[0] ^ num[1];
+		num[1] = num[0] ^ num[1];
+		num[0] = num[0] ^ num[1];
+		return num;
 	}
 };
 

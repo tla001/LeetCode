@@ -292,6 +292,33 @@ public:
 		}
 		return max;
 	}
+	int Manacher(string str) {
+		if (str.empty())
+			return -1;
+		string s;
+		s.append(1, '$');
+		for (int i = 0; i < str.size(); i++) {
+			s.append(1, '#');
+			s.append(1, str[i]);
+		}
+		s.append(1, '#');
+		int id = 0;
+		int mx = 0;
+		vector<int> P(s.size(), 0);
+		for (int i = 1; i < s.size(); i++) {
+			if (i < mx)
+				P[i] = min(P[2 * id - i], mx - i);
+			else
+				P[i] = 1;
+			while (s[i + P[i]] == s[i - P[i]])
+				P[i]++;
+			if (P[i] + i > mx) {
+				mx = P[i] + i;
+				id = i;
+			}
+		}
+
+	}
 	/*
 	 * ×Ö·û´®È«ÅÅÁÐ
 	 */
