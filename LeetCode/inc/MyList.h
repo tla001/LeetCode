@@ -328,15 +328,25 @@ public:
 	ListNode *insertSort(ListNode *head) {
 		if (!head || !head->next)
 			return head;
-		ListNode *cur = head;
-		ListNode *nhead = new ListNode(0);
-		ListNode *ncur = nhead->next;
-		ListNode *pre = NULL, *temp = NULL;
-		while (cur != NULL) {
-			temp = cur;
-			for (ncur = nhead->next; ncur != NULL; ncur = ncur->next)
-				cur = cur->next;
+		ListNode *dummy = new ListNode(0);
+		dummy->next = head;
+		ListNode *cur = head->next;
+		ListNode *pre = NULL;
+		ListNode *next = NULL;
+		head->next = NULL;
+		while (cur) {
+			pre = dummy;
+			next = cur->next;
+			while (pre->next && pre->next->val < cur->val) {
+				pre = pre->next;
+			}
+			cur->next = pre->next;
+			pre->next = cur;
+			cur = next;
 		}
+		head = dummy->next;
+		delete dummy;
+		return head;
 	}
 	static void test() {
 		MyList t;
