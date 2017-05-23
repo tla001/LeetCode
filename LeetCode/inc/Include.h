@@ -17,6 +17,7 @@ extern "C" {
 
 #include <iostream>
 #include <sstream>
+#include <istream>
 #include <iomanip>
 #include <string>
 #include <cstring>

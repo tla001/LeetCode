@@ -5,10 +5,11 @@
  *      Author: tla001
  */
 
-#ifndef INC_CODE30_H_
-#define INC_CODE30_H_
+#ifndef INC_PAGE1_H_
+#define INC_PAGE1_H_
 #include "Include.h"
 
+namespace LeetCode {
 /*
  *树最小深度
  */
@@ -80,6 +81,52 @@ public:
 			}
 		}
 		return opnum.top();
+	}
+};
+class nini {
+public:
+	static void merge(vector<int>&nums1, int m, vector<int>&nums2, int n) {
+		int index1 = 0;
+		int index2 = 0;
+		int index = 0;
+		while (index1 < n && index2 < n) {
+			if (nums1[index] <= nums2[index2]) {
+				index1++;
+				index++;
+			} else {
+				nums1.insert(nums1.begin() + index, nums2[index2++]);
+				index++;
+			}
+		}
+		while (index2 < n) {
+			nums1.insert(nums1.begin() + index - 1, nums2[index2++]);
+			index++;
+		}
+	}
+	static void test() {
+		int m = 3;
+		int n = 4;
+		vector<int> nums1(m + n + 1, 0);
+		vector<int> nums2(n, 0);
+		for (int i = 0; i < m; i++) {
+			nums1[i] = i + 1;
+		}
+		for (int i = 0; i < m; i++) {
+			cout << nums1[i] << " ";
+		}
+		cout << endl;
+		for (int i = 0; i < n; i++) {
+			nums2[i] = i + 2;
+		}
+		for (int i = 0; i < n; i++) {
+			cout << nums2[i] << " ";
+		}
+		cout << endl;
+		merge(nums1, m, nums2, n);
+		for (int i = 0; i < m + n; i++) {
+			cout << nums1[i] << " ";
+		}
+		cout << endl;
 	}
 };
 class Q3 {
@@ -239,8 +286,60 @@ public:
 
 class Q5 {
 public:
-	static void test() {
+	struct ListNode {
+		int val;
+		ListNode *next;
+		ListNode(int x) :
+				val(x), next(NULL) {
+		}
+	};
+	static ListNode * createList(vector<int> arr) {
+		ListNode *head = new ListNode(arr[0]);
+		ListNode *p = head;
+		for (int i = 1; i < arr.size(); i++) {
+			ListNode *node = new ListNode(arr[i]);
+			p->next = node;
+			p = p->next;
+		}
+		return head;
+	}
+	static void printList(ListNode *list) {
+		while (list) {
+			cout << list->val << " ";
+			list = list->next;
+		}
+		cout << endl;
+	}
+	static ListNode *insertSort(ListNode *head) {
+		if (!head || !head->next)
+			return head;
+		ListNode *dummy = new ListNode(0);
+		dummy->next = head;
+		ListNode *cur = head->next;
+		ListNode *pre = NULL;
+		ListNode *next = NULL;
+		head->next = NULL;
+		while (cur) {
+			pre = dummy;
+			next = cur->next;
+			while (pre->next && pre->next->val < cur->val) {
+				pre = pre->next;
+			}
+			cur->next = pre->next;
+			pre->next = cur;
+			cur = next;
+		}
+		head = dummy->next;
+		delete dummy;
+		return head;
 
+	}
+	static void test() {
+		vector<int> arr = { 12, 2, 3, 20, 5, 6, 4 };
+		ListNode *list = createList(arr);
+		printList(list);
+		ListNode *list1 = insertSort(list);
+		printList(list1);
 	}
 };
 class Q6 {
@@ -330,7 +429,7 @@ public:
 		}
 		cout << endl;
 	}
-	static void reorderList(ListNode *head) {
+	static void reorderList1(ListNode *head) {
 		if (head == NULL || head->next == NULL)
 			return;
 		ListNode *p = head;
@@ -375,12 +474,63 @@ public:
 		p = NULL;
 		//printList(head);
 	}
+	static void reorderList2(ListNode *head) {
+		if (head == NULL || head->next == NULL || head->next->next == NULL)
+			return;
+		queue<ListNode *> q;
+		ListNode *slower = head;
+		q.push(slower);
+		ListNode *faster = head;
+		while (faster->next && faster->next->next) {
+			slower = slower->next;
+			faster = faster->next->next;
+			q.push(slower);
+		}
+		slower = slower->next;
+		stack<ListNode *> s;
+		while (slower) {
+			s.push(slower);
+			slower = slower->next;
+		}
+//		while (!q.empty()) {
+//			cout << q.front()->val << " ";
+//			q.pop();
+//		}
+//		cout << endl;
+//		while (!s.empty()) {
+//			cout << s.top()->val << " ";
+//			s.pop();
+//		}
+//		cout << endl;
+////		return;
+		head = q.front();
+		q.pop();
+		ListNode *p = head;
+		while (!s.empty()) {
+			p->next = s.top();
+			s.pop();
+			p = p->next;
+//			if (!q.empty()) {
+//				p->next = q.front();
+//				q.pop();
+//				p = p->next;
+//			} else {
+//				break;
+//			}
+		}
+
+//		while (!q.empty()) {
+//			p->next = q.front();
+//			q.pop();
+//			p = p->next;
+//		}
+	}
 	static void test() {
 		vector<Elemtype> arr = { 1, 2, 3, 4, 5, 6 };
 		ListNode *head = NULL;
 		createList(head, arr);
 		//printList(head);
-		reorderList1(head);
+		reorderList(head);
 		printList(head);
 	}
 	static void reverseList(ListNode* & head) {
@@ -397,7 +547,7 @@ public:
 		}
 	}
 
-	static void reorderList1(ListNode *head) {
+	static void reorderList(ListNode *head) {
 		if (head == NULL || head->next == NULL)
 			return;
 		ListNode *fast = head, *slow = head;
@@ -503,6 +653,43 @@ class Q12 {
 		return wordB[s.length()];
 	}
 };
+class Q13 {
+public:
+	struct RandomListNode {
+		int label;
+		struct RandomListNode*next, *random;
+		RandomListNode(int x) :
+				label(x), next(NULL), random(NULL) {
+		}
+	};
+	RandomListNode *Clone(RandomListNode *pHead) {
+		if (pHead == NULL)
+			return NULL;
+		RandomListNode *cur = pHead;
+		while (cur) {
+			RandomListNode *temp = new RandomListNode(cur->label);
+			temp->next = cur->next;
+			cur->next = temp;
+			cur = temp->next;
+		}
+		cur = pHead;
+		while (cur) {
+			if (cur->random != NULL)
+				cur->next->random = cur->random->next;
+			cur = cur->next->next;
+		}
+
+		RandomListNode *node = NULL;
+		cur = pHead;
+		RandomListNode *newHead = pHead->next;
+		while (cur->next) {
+			node = cur->next;
+			cur->next = cur->next->next;
+			cur = node;
+		}
+		return newHead;
+	}
+};
 class Q14 {
 public:
 	static void test() {
@@ -510,7 +697,7 @@ public:
 		int n = 10;
 		cout << singleNumber(A, n) << endl;
 	}
-	static int singleNumber(int A[], int n) {
+	static int singleNumber1(int A[], int n) {
 		stable_sort(A, A + n);
 		for (int i = 0; i < n - 3; i += 3) {
 			if (A[i] != A[i + 1]) {
@@ -519,15 +706,30 @@ public:
 		}
 		return A[n - 1];
 	}
+	static int singleNumber(int A[], int n) {
+		int ones = 0;
+		int twos = 0;
+		int threes;
+		for (int i = 0; i < n; i++) {
+			int t = A[i];
+			twos |= ones & t; //要在更新one之前更新two
+			ones ^= t;
+			threes = ones & twos;
+			ones &= ~threes;
+			twos &= ~threes;
+		}
+		return ones;
+	}
 };
 class Q15 {
 public:
 	static void test() {
 		int A[] = { 2, 5, 3, 4, 4, 5, 2 };
-		int n = 10;
+		int n = 7;
+		cout << "res= ";
 		cout << singleNumber(A, n) << endl;
 	}
-	static int singleNumber(int A[], int n) {
+	static int singleNumber1(int A[], int n) {
 		stable_sort(A, A + n);
 		for (int i = 0; i < n - 2; i += 2) {
 			if (A[i] != A[i + 1]) {
@@ -535,6 +737,13 @@ public:
 			}
 		}
 		return A[n - 1];
+	}
+	static int singleNumber(int A[], int n) {
+		int res = A[0];
+		for (int i = 1; i < n; i++) {
+			res ^= A[i];
+		}
+		return res;
 	}
 };
 class Q16 {
@@ -616,4 +825,137 @@ public:
 
 	}
 };
-#endif /* INC_CODE30_H_ */
+class Q18 {
+public:
+	struct UndirectedGraphNode {
+		int label;
+		vector<UndirectedGraphNode*> neigthbors;
+		UndirectedGraphNode(int x) :
+				label(x) {
+		}
+	};
+	unordered_map<UndirectedGraphNode*, UndirectedGraphNode*> hash;
+	UndirectedGraphNode *cloneGraph(UndirectedGraphNode *node) {
+		if (!node)
+			return node;
+		if (hash.find(node) == hash.end()) {
+			hash[node] = new UndirectedGraphNode(node->label);
+			for (auto x : node->neigthbors) {
+				(hash[node]->neigthbors).push_back(cloneGraph(x));
+			}
+		}
+		return hash[node];
+	}
+};
+class Q19 {
+public:
+	bool isPalindrome(string s, int left, int right) {
+		int i, j;
+		for (i = left, j = right; i < j; i++, j--) {
+			if (s[i] != s[j])
+				return false;
+		}
+		return true;
+	}
+	int minCut(string s) {
+		int len = s.size();
+		if (len < 2)
+			return 0;
+		vector<int> dp(len, 0);
+		for (int i = 1; i < len; i++) {
+			if (isPalindrome(s, 0, i)) {
+				dp[i] = 0;
+			} else {
+				dp[i] = i;
+			}
+		}
+		for (int i = 1; i < len; i++) {
+			for (int j = 1; j < i; j++) {
+				if (isPalindrome(s, j, i)) {
+					dp[i] = min(dp[i], dp[j - 1] + 1);
+				} else {
+					dp[i] = min(dp[i], dp[i - 1] + 1);
+				}
+			}
+		}
+
+		return dp[len - 1];
+	}
+};
+class Q20 {
+public:
+	vector<vector<string>> res;
+	vector<string> tmp;
+	bool isPalindrome(string s) {
+		bool flag = true;
+		int left = 0;
+		int right = s.size() - 1;
+		while (left <= right) {
+			if (s[left] != s[right]) {
+				flag = false;
+				break;
+			}
+			left++;
+			right--;
+		}
+		return flag;
+	}
+	void dfs(string s, int pos) {
+		if (pos >= s.size()) {
+			res.push_back(tmp);
+		}
+		for (int i = 1; i <= s.size() - pos; i++) {
+			string sub = s.substr(pos, i);
+			if (isPalindrome(sub)) {
+				tmp.push_back(sub);
+				dfs(s, pos + i);
+				tmp.pop_back();
+			}
+		}
+	}
+	vector<vector<string>> partition(string s) {
+		dfs(s, 0);
+		return res;
+	}
+};
+class GetLongest {
+public:
+	static int testTwoSides(string &s, int low, int up) {
+		int n = s.length();
+		int max = 0;
+		if (low == up) {
+			low--;
+			up++;
+			max = 1;
+		}
+		while (low >= 0 && up < n && s[low] == s[up]) {
+			max += 2;
+			low--;
+			up++;
+		}
+		return max;
+	}
+	static string longestPalindrome(string s) {
+		int n = s.length();
+		int subStartPoint = 0;
+		int maxLength = 1;
+		int temp = 0;
+		for (int i = 0; i < n; i++) {
+			temp = testTwoSides(s, i, i);
+			if (temp > maxLength) {
+				subStartPoint = i - temp / 2;
+				maxLength = temp;
+			}
+		}
+		for (int i = 1; i < n; i++) {
+			temp = testTwoSides(s, i - 1, i);
+			if (temp > maxLength) {
+				subStartPoint = i - temp / 2;
+				maxLength = temp;
+			}
+		}
+		return s.substr(subStartPoint, maxLength);
+	}
+};
+}
+#endif /* INC_PAGE1_H_ */

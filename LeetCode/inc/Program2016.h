@@ -578,4 +578,188 @@ public:
 
 	}
 };
+
+class DidiTest {
+public:
+	static void continueSum() {
+		int n;
+		while (cin >> n) {
+			int a = 0;
+			cin >> a;
+			int sum = a;
+			int cursum = a;
+			for (int i = 1; i < n; i++) {
+				cin >> a;
+				cursum = max(cursum + a, a);
+				sum = max(cursum, sum);
+			}
+			cout << sum << endl;
+		}
+	}
+	static void cosume() {
+		int n, m;
+		while (cin >> n >> m) {
+		}
+	}
+	static void zeronums() {
+		int n = 0;
+		while (cin >> n) {
+//			unsigned long long sum = 1;
+//			for (int i = 1; i <= n; i++) {
+//				sum *= i;
+//			}
+//			int num = 0;
+//			while (sum % 10 == 0) {
+//				num++;
+//				sum /= 10;
+//			}
+			int num = 0;
+			for (int i = 1; i <= n; i++) {
+				int j = i;
+				while (j % 5 == 0) {
+					num++;
+					j /= 5;
+				}
+			}
+			cout << num << endl;
+		}
+	}
+
+	static void tran() {
+		int m, n;
+		vector<char> chars = { 'A', 'B', 'C', 'D', 'E', 'F' };
+		while (cin >> m >> n) {
+			int flag = 0;
+			if (m < 0) {
+				flag = 1;
+				m = 0 - m;
+			}
+			vector<int> arr;
+			while (m) {
+				int num = m % n;
+				m /= n;
+				arr.push_back(num);
+			}
+			if (flag)
+				cout << "-";
+			for (int i = arr.size() - 1; i >= 0; i--) {
+				if (arr[i] > 9) {
+					cout << chars[arr[i] - 10];
+				} else {
+					cout << arr[i];
+				}
+			}
+			cout << endl;
+		}
+	}
+
+	static void sumnum() {
+		int n, sum;
+		while (cin >> n >> sum) {
+			vector<int> arr(n, 0);
+			for (int i = 0; i < n; i++) {
+				cin >> arr[i];
+			}
+
+		}
+	}
+
+};
+namespace didi {
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+void dfs(vector<vector<int> > &input, int i, int j, int n, int m) {
+	if (i < 0 || j < 0 || i >= n || j >= m || (0 == input[i][j]))
+		return;
+	input[i][j] = 0;
+	dfs(input, i + 1, j, n, m);
+	dfs(input, i, j + 1, n, m);
+	dfs(input, i - 1, j, n, m);
+	dfs(input, i, j - 1, n, m);
+}
+
+int test() {
+	int n, m;
+	cin >> n >> m;
+	vector < vector<int> > input;
+	for (int i = 0; i < n; i++) {
+		vector<int> v;
+		string str;
+		cin >> str;
+		for (int j = 0; j < m; j++) {
+			int tmp = str[j] - '0';
+			v.push_back(tmp);
+		}
+		input.push_back(v);
+	}
+	int count = 0;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < m; j++) {
+			if (1 == input[i][j]) {
+				dfs(input, i, j, n, m);
+				++count;
+			}
+		}
+	}
+	cout << count;
+
+	return 0;
+}
+
+static void t9() {
+	string word;
+	map<int, string> m;
+	m.insert(make_pair(2, "abc"));
+	m.insert(make_pair(3, "def"));
+	m.insert(make_pair(4, "ghi"));
+	m.insert(make_pair(5, "jkl"));
+	m.insert(make_pair(6, "mno"));
+	m.insert(make_pair(7, "pqrs"));
+	m.insert(make_pair(8, "tuv"));
+	m.insert(make_pair(9, "wxyz"));
+	/*
+	 Produces a printable string representation of a dictory
+	 784
+	 */
+
+	while (getline(cin, word)) {
+		istringstream iss(word);
+		string s;
+		vector < string > words;
+		while (iss >> s) {
+//			cout << s << endl;
+			words.push_back(s);
+		}
+		string nums;
+		cin >> nums;
+		vector < string > ready(words);
+		for (int i = 0; i < nums.size(); i++) {
+			string chars = m[nums[i] - '0'];
+//			cout << chars << endl;
+
+			for (int k = 0; k < ready.size(); k++) {
+				vector < string > tmp;
+				for (int j = 0; j < chars.size(); j++) {
+//					cout << "ready " << k << " chars " << j << endl;
+					if (ready[k].size() > i) {
+						if (ready[k][i] == chars[j]
+								|| ready[k][i] == toupper(chars[j])) {
+							tmp.push_back(ready[k]);
+//							break;
+						}
+					}
+				}
+				ready.clear();
+				for (int a = 0; a < tmp.size(); a++) {
+					cout << tmp[a] << endl;
+					ready.push_back(tmp[a]);
+				}
+			}
+		}
+	}
+}
+}
 #endif /* INC_PROGRAM2016_H_ */

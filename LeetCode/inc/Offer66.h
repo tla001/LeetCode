@@ -2068,5 +2068,72 @@ class someTest {
 		return cnt;
 	}
 };
-
+class outPut {
+public:
+	struct ListNode {
+		int val;
+		ListNode *next;
+		ListNode(int x) :
+				val(x), next(NULL) {
+		}
+	};
+	/*
+	 * 创建链表
+	 */
+	static void createList(ListNode *&head, vector<int> arr) {
+		head = new ListNode(arr[0]);
+		ListNode *p1 = head;
+		ListNode *p2;
+		for (int i = 1; i < arr.size(); i++) {
+			p2 = new ListNode(arr[i]);
+			p1->next = p2;
+			p1 = p1->next;
+		}
+	}
+	/*
+	 * 打印链表
+	 */
+	static void printList(ListNode *head) {
+		ListNode *p = head;
+		while (p) {
+			cout << p->val << "\t";
+			p = p->next;
+		}
+		cout << endl;
+	}
+	static ListNode *out(ListNode *list) {
+		if (list == NULL)
+			return list;
+		deque<ListNode*> d;
+		while (list) {
+			d.push_back(list);
+			list = list->next;
+		}
+		list = d.front();
+		ListNode *p = list;
+		d.pop_front();
+		while (!d.empty()) {
+			p->next = d.back();
+			p = p->next;
+			d.pop_back();
+			if (!d.empty()) {
+				p->next = d.front();
+				p = p->next;
+				d.pop_front();
+			} else {
+				break;
+			}
+		}
+		p->next = NULL;
+		return list;
+	}
+	static void test() {
+		vector<int> arr = { 1, 2, 3, 4, 5, 6 };
+		ListNode *head = NULL;
+		createList(head, arr);
+		printList(head);
+		ListNode *ne = out(head);
+		printList(ne);
+	}
+};
 #endif /* INC_OFFER66_H_ */

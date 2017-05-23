@@ -5,7 +5,7 @@
  *      Author: tla001
  */
 
-//#include "Code30.h"
+#include "page1.h"
 //#include "MyTree.h"
 //#include "MyList.h"
 //#include "MyStack.h"
@@ -20,13 +20,11 @@
 //#include "MyGreedy.h"
 //#include "Program2016.h"
 //#include "NiuKeVideo.h"
-//#include "neteasy.h"
-#include "JingDong.h"
 
 //int MyMGraph::visited[MAXVEX];
 int main() {
-//	Q1::test();
-//	Q2::test();
+//	LeetCode::Q1::test();
+	LeetCode::Q15::test();
 //	OrdinaryBitTree::test();
 //	BinarySearchTree::test();
 //	MyListH::test();
@@ -57,7 +55,12 @@ int main() {
 //	JingDong::test();
 //	Tencent::getMaxMinDiff();
 //	BaiDu::goFish();
-	JingDong47::calP();
+//	JingDong47::calP();
+//	outPut::test();
+//	DidiTest::continueSum();
+//	DidiTest::zeronums();
+//	DidiTest::tran();
+//	didi::t9();
 
 	return 0;
 }
