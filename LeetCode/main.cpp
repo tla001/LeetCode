@@ -5,7 +5,7 @@
  *      Author: tla001
  */
 
-#include "page1.h"
+#include "page2.h"
 //#include "MyTree.h"
 //#include "MyList.h"
 //#include "MyStack.h"
@@ -24,7 +24,7 @@
 //int MyMGraph::visited[MAXVEX];
 int main() {
 //	LeetCode::Q1::test();
-	LeetCode::Q15::test();
+	LeetCode::Q22::test();
 //	OrdinaryBitTree::test();
 //	BinarySearchTree::test();
 //	MyListH::test();

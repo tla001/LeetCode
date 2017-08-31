@@ -472,13 +472,13 @@ public:
 		ListNode *cur = head;
 		if (head == NULL)
 			return NULL;
+		k = k % len;
+		if (k == 0)
+			return head;
 		while (cur->next) {
 			len++;
 			cur = cur->next;
 		}
-		k = k % len;
-		if (k == 0)
-			return head;
 		cur->next = head;
 		cur = head;
 		for (int i = 0; i < len - k - 1; i++) {
